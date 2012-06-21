@@ -45,6 +45,6 @@
 
 	<target name="buildzipsrc">
     	<mkdir dir="${dest.pathzip}"/>
-		<zip destfile="${dest.zipsrc}" basedir="${zip.pathbase}" excludes="**/zip/**,**/bin/**,**/build/**,**/.git/**,**/tools/*.bat,**/.p4ignore,**/.gitignore"/>
+		<zip destfile="${dest.zipsrc}" basedir="${zip.pathbase}" excludes="logo/*.ai,logo/*.psd,**/zip/**,**/bin/**,**/build/**,**/.git/**,**/tools/*.bat,**/.p4ignore,**/.gitignore"/>
 	</target>
 </project>
