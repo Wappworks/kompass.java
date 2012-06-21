@@ -16,6 +16,11 @@ This library requires Java SE 6 or later.
 
 VERSION HISTORY
 ------------------
+### In development
+
+#### New features
+- Added an adapter class for PathNodeEvaluator (PathNodeEvaluatorAdapter)
+
 ### 0.1.0 First release
 
 Contains basic path finding framework and A-star algorithm
