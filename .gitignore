@@ -1,6 +1,6 @@
-
 bin
 build
 *.p4ignore
 zip/*
 tools/*.bat
+logo/*.ai
