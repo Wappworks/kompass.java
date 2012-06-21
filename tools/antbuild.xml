@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="buildjar" name="Build jar">
+
+	<!--
+		PROPERTIES				
+	-->
+	<tstamp>
+        <format property="datenow" pattern="MMMM dd, yyyy" locale="en"/>
+	</tstamp>
+	
+	<property name="src.bin" value="../bin"/>
+	<property name="version" value="0.1.0"/>
+	<property name="out.dir" value="../build"/>
+	<property name="out.jarpath" value="${out.dir}/kompass-${version}.jar"/>
+	
+	<!--
+		TARGETS				
+	-->
+	<target name="clean">
+		<delete includeEmptyDirs="true" quiet="true">
+		    <fileset dir="${out.dir}"></fileset>
+		</delete>
+	</target>
+	  
+    <target name="buildjar">
+        <jar destfile="${out.jarpath}" filesetmanifest="mergewithoutmain">
+            <manifest>
+            	<attribute name="Class-Path" value="."/>
+            	<attribute name="Kompass version" value="${version} ${datenow}"/>
+            </manifest>
+            <fileset dir="${src.bin}"/>
+        </jar>
+    </target>
+</project>

@@ -10,9 +10,7 @@ FEATURES
 VERSION HISTORY
 ------------------
 
-### 0.1.0
-
-First release.
+### 0.1.0 First release
 
 Contains basic path finding framework and A-star algorithm
 
