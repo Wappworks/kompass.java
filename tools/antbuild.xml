@@ -11,14 +11,20 @@
 	<property name="src.bin" value="../bin"/>
 	<property name="version" value="0.1.0"/>
 	<property name="out.dir" value="../build"/>
-	<property name="out.jarpath" value="${out.dir}/kompass-${version}.jar"/>
+	<property name="out.jarpath" value="${out.dir}/kompass.jar"/>
+	
+	<property name="dest.pathzip" value="../zip"/>
+	<property name="dest.zipbin" value="${dest.pathzip}/kompass-${version}-bin.zip"/>
+	<property name="dest.zipsrc" value="${dest.pathzip}/kompass-${version}-src.zip"/>
+	<property name="zip.pathbase" value=".."/>
 	
 	<!--
-		TARGETS				
+		PUBLIC TARGETS				
 	-->
 	<target name="clean">
 		<delete includeEmptyDirs="true" quiet="true">
 		    <fileset dir="${out.dir}"></fileset>
+		    <fileset dir="${dest.pathzip}"></fileset>
 		</delete>
 	</target>
 	  
@@ -31,4 +37,14 @@
             <fileset dir="${src.bin}"/>
         </jar>
     </target>
+
+	<target name="buildzipbin" depends="buildjar">
+    	<mkdir dir="${dest.pathzip}"/>
+		<zip destfile="${dest.zipbin}" basedir="${zip.pathbase}" includes="build/**,README.md, examples/**" excludes="**/bin/**,**/.p4ignore,**/.gitignore"/>
+	</target>
+
+	<target name="buildzipsrc">
+    	<mkdir dir="${dest.pathzip}"/>
+		<zip destfile="${dest.zipsrc}" basedir="${zip.pathbase}" excludes="**/zip/**,**/bin/**,**/build/**,**/.git/**,**/tools/*.bat,**/.p4ignore,**/.gitignore"/>
+	</target>
 </project>

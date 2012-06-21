@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="buildjar" name="Build jar">
+
+	<!--
+		PROPERTIES				
+	-->
+	<property name="src.bin" value="../bin"/>
+	<property name="kompass.jarpath" value="../../../build/kompass.jar"/>
+	<property name="out.dir" value=".."/>
+	<property name="out.jarpath" value="${out.dir}/simplegrid.jar"/>
+	
+	<!--
+		TARGETS				
+	-->
+	<target name="clean">
+		<delete file="${out.jarpath}" quiet="true" />
+	</target>
+	  
+    <target name="buildjar">
+        <jar destfile="${out.jarpath}" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="com.wappworks.simplegrid.AppMain"/>
+            	<attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${src.bin}"/>
+            <zipfileset src="${kompass.jarpath}"/>
+        </jar>
+    </target>
+</project>

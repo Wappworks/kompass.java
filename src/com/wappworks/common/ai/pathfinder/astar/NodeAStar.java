@@ -8,7 +8,7 @@ package com.wappworks.common.ai.pathfinder.astar;
 
 import com.wappworks.common.ai.pathfinder.common.PathNode;
 
-public class NodeAStar<T> implements PathNode<T>
+public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
 {
 	public 	T 				node;
 	
@@ -45,4 +45,21 @@ public class NodeAStar<T> implements PathNode<T>
 
 	@Override
 	public float getCost()			{	return g;			}
+
+	@Override
+	public int compareTo(NodeAStar<T> other )
+	{
+		float diff = f - other.f;
+		if( diff == 0 )
+		{
+			diff = h - other.h;
+		}
+		
+		if( diff < 0 )
+			return -1;
+		if( diff > 0 )
+			return 1;
+		
+		return 0;
+	}
 }

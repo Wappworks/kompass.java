@@ -2,21 +2,27 @@ KOMPASS
 ==================
 Kompass is a path finding framework library. It ships with the A-star algorithm by default.
 
+
 FEATURES
 ------------------
 - Templatized path finding base classes make it easy to customize the path finding requirements.
 - A-star path finding algorithm included in the base library
 
+
+REQUIREMENTS
+------------------
+This library requires Java SE 6 or later.
+
+
 VERSION HISTORY
 ------------------
-
 ### 0.1.0 First release
 
 Contains basic path finding framework and A-star algorithm
 
+
 LICENSE
 ------------------
-
 Released under the MIT license.
 
 ### MIT license

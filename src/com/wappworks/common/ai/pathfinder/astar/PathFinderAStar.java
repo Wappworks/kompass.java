@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.PriorityQueue;
 
 import com.wappworks.common.ai.pathfinder.common.PathNode;
 import com.wappworks.common.ai.pathfinder.common.PathNodeEvaluator;
@@ -35,32 +35,22 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 			PathNodeEvaluator<T> eval)
 	{
 		Hashtable<T, NodeAStar<T>> pathNodeHeap = new Hashtable<T, NodeAStar<T>>();
-		TreeMap<Float, NodeAStar<T>> openHeap = new TreeMap<Float, NodeAStar<T>>();
+		PriorityQueue<NodeAStar<T>> openHeap = new PriorityQueue<NodeAStar<T>>();
 		
-		NodeAStar<T> pathNodeStart = new NodeAStar<T>( nodeStart );
-		pathNodeStart.closed = true;
+		NodeAStar<T> pathNodeStart  	= new NodeAStar<T>( nodeStart );
+		NodeAStar<T> pathNodeEndBest 	= null;
+		pathNodeStart.closed 			= true;
 		pathNodeHeap.put( nodeStart, pathNodeStart );
-		openHeap.put( pathNodeStart.f, pathNodeStart );
+		openHeap.add( pathNodeStart );
 
-		while( openHeap.size() > 0 )
+		while( openHeap.peek() != null )
 		{
-			NodeAStar<T> pathNodePrev = openHeap.firstEntry().getValue();
-			openHeap.remove( pathNodePrev );
+			NodeAStar<T> pathNodePrev = openHeap.poll();
 			
 			// TERMINATING CONDITION: Path is finished...
 			if( eval.isPathFinished( pathNodePrev.node, nodeEnd) )
 			{
-				List<T> path = new ArrayList<T>();
-				
-				do
-				{
-					path.add( pathNodePrev.node );
-					pathNodePrev = pathNodePrev.parent;
-				}
-				while( pathNodePrev != null );
-				
-				Collections.reverse( path );
-				return( path );
+				return( buildPath(pathNodePrev) );
 			}
 			
 			List<T> neighbors = nodeSet.getNeighbours( pathNodePrev.node, pathNodePrev.depth );
@@ -87,7 +77,7 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 				float g = pathNodePrev.g + eval.getCost( pathNodePrev.node, pathNodeCurr.node );
 				
                 // Check to see if the node should be closed...
-				if( eval.isClosed(pathNodeCurr.node, pathNodePrev.node, g) )
+				if( eval.isPathBlocked(pathNodeCurr.node, pathNodePrev.node, g) )
 				{
 					pathNodeCurr.closed = true;
 					continue;
@@ -106,13 +96,21 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 					pathNodeCurr.g = g;
 					pathNodeCurr.f = pathNodeCurr.h + pathNodeCurr.g;
 					
-					openHeap.put( pathNodeCurr.f, pathNodeCurr );
+					openHeap.add( pathNodeCurr );
+
+					if( pathNodeEndBest == null 														|| 
+						pathNodeCurr.h < pathNodeEndBest.h 												|| 
+						(pathNodeCurr.h == pathNodeEndBest.h) && (pathNodeCurr.f < pathNodeEndBest.f)		)
+					{
+						pathNodeEndBest = pathNodeCurr;
+					}
 				}
 			}
 		}
 		
-		// If we get here, we return an empty list...
-		return( new ArrayList<T>() );
+		// If we get here, we were not able to reach the destination, but we found the
+		// best closest path to it...
+		return( buildPath(pathNodeEndBest) );
 	}
 
 	@Override
@@ -120,18 +118,17 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 	{
 		List<PathNode<T>> reachables = new ArrayList<PathNode<T>>();
 		Hashtable<T, NodeAStar<T>> pathNodeHeap = new Hashtable<T, NodeAStar<T>>();
-		TreeMap<Float, NodeAStar<T>> openHeap = new TreeMap<Float, NodeAStar<T>>();
+		PriorityQueue<NodeAStar<T>> openHeap = new PriorityQueue<NodeAStar<T>>();
 		
 		NodeAStar<T> pathNodeStart = new NodeAStar<T>( nodeStart );
 		pathNodeStart.closed = true;
 		pathNodeHeap.put( nodeStart, pathNodeStart );
-		openHeap.put( pathNodeStart.f, pathNodeStart );
+		openHeap.add( pathNodeStart );
 		reachables.add( pathNodeStart );
 		
-		while( openHeap.size() > 0 )
+		while( openHeap.peek() != null )
 		{
-			NodeAStar<T> pathNodePrev = openHeap.firstEntry().getValue();
-			openHeap.remove( pathNodePrev );
+			NodeAStar<T> pathNodePrev = openHeap.poll();
 			
 			List<T> neighbors = nodeSet.getNeighbours( pathNodePrev.node, pathNodePrev.depth );
 			for( T nodeCurr : neighbors )
@@ -157,7 +154,7 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 				float g = pathNodePrev.g + eval.getCost( pathNodePrev.node, pathNodeCurr.node );
 				
                 // Check to see if the node should be closed...
-				if( eval.isClosed(pathNodeCurr.node, pathNodePrev.node, g) )
+				if( eval.isPathBlocked(pathNodeCurr.node, pathNodePrev.node, g) )
 				{
 					pathNodeCurr.closed = true;
 					continue;
@@ -175,12 +172,26 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 					pathNodeCurr.g = g;
 					pathNodeCurr.f = pathNodeCurr.g;
 					
-					openHeap.put( pathNodeCurr.f, pathNodeCurr );
+					openHeap.add( pathNodeCurr );
 				}
 			}
 		}
 		
 		// If we get here, we return an empty list...
 		return( reachables );
+	}
+	
+	private List<T> buildPath( NodeAStar<T> pathNodeEnd )
+	{
+		List<T> path = new ArrayList<T>();
+		NodeAStar<T> pathNodeCurr = pathNodeEnd;
+		while( pathNodeCurr != null )
+		{
+			path.add( pathNodeCurr.node );
+			pathNodeCurr = pathNodeCurr.parent;
+		}
+		
+		Collections.reverse( path );
+		return( path );
 	}
 }
