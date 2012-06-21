@@ -11,18 +11,19 @@ FEATURES
 
 REQUIREMENTS
 ------------------
-This library requires Java SE 6 or later.
+This library will only work in a Java SE 6 or later environment.
 
 
 VERSION HISTORY
 ------------------
-### In development
-
+### 0.1.1 Framework change
 #### New features
 - Added an adapter class for PathNodeEvaluator (PathNodeEvaluatorAdapter)
+#### API changes
+- PathNodeSet has been removed and its functions rolled into PathNodeEvaluator to allow custom neighbour searching
+- PathFinderAStar constructor no longer takes any arguments.
 
 ### 0.1.0 First release
-
 Contains basic path finding framework and A-star algorithm
 
 

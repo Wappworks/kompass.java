@@ -14,21 +14,15 @@ import java.util.PriorityQueue;
 
 import com.wappworks.common.ai.pathfinder.common.PathNode;
 import com.wappworks.common.ai.pathfinder.common.PathNodeEvaluator;
-import com.wappworks.common.ai.pathfinder.common.PathNodeSet;
 import com.wappworks.common.ai.pathfinder.common.Pathfinder;
 
 public class PathFinderAStar<T> implements Pathfinder<T>
 {
 	// Instance variables
 	// ----------------------------------------
-	private PathNodeSet<T>			nodeSet;
 	
 	// Public API
 	// ----------------------------------------
-	public PathFinderAStar( PathNodeSet<T> inNodeSet )
-	{
-		nodeSet = inNodeSet;
-	}
 	
 	@Override
 	public List<T> findPath(T nodeStart, T nodeEnd,
@@ -53,7 +47,10 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 				return( buildPath(pathNodePrev) );
 			}
 			
-			List<T> neighbors = nodeSet.getNeighbours( pathNodePrev.node, pathNodePrev.depth );
+			List<T> neighbors = eval.getNeighbours( pathNodePrev.node, pathNodePrev.depth );
+			if( neighbors == null )
+				continue;
+			
 			for( T nodeCurr : neighbors )
 			{
 				// Get/Create the node's path node...
@@ -130,7 +127,7 @@ public class PathFinderAStar<T> implements Pathfinder<T>
 		{
 			NodeAStar<T> pathNodePrev = openHeap.poll();
 			
-			List<T> neighbors = nodeSet.getNeighbours( pathNodePrev.node, pathNodePrev.depth );
+			List<T> neighbors = eval.getNeighbours( pathNodePrev.node, pathNodePrev.depth );
 			for( T nodeCurr : neighbors )
 			{
 				// Get/Create the node's path node...

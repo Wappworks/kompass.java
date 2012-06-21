@@ -9,7 +9,7 @@
 	</tstamp>
 	
 	<property name="src.bin" value="../bin"/>
-	<property name="version" value="0.1.0"/>
+	<property name="version" value="0.1.1"/>
 	<property name="out.dir" value="../build"/>
 	<property name="out.jarpath" value="${out.dir}/kompass.jar"/>
 	

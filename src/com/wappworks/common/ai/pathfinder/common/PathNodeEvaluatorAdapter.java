@@ -6,10 +6,11 @@
  */
 package com.wappworks.common.ai.pathfinder.common;
 
+import java.util.List;
+
 public abstract class PathNodeEvaluatorAdapter<T> implements
 		PathNodeEvaluator<T>
 {
-
 	@Override
 	public boolean isPathBlocked(T nodeCurr, T nodePrev, float nodeCurrCost)
 	{
@@ -34,4 +35,9 @@ public abstract class PathNodeEvaluatorAdapter<T> implements
 		return( nodeCurr == nodeDest );
 	}
 
+	@Override
+	public List<T> getNeighbours( T node, int nodePathDepth )
+	{
+		return( null );
+	}
 }

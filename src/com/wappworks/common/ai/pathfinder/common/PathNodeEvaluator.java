@@ -6,6 +6,8 @@
  */
 package com.wappworks.common.ai.pathfinder.common;
 
+import java.util.List;
+
 public interface PathNodeEvaluator<T>
 {
 	/*
@@ -48,4 +50,14 @@ public interface PathNodeEvaluator<T>
 	 * @return					true if the path finding is complete. false otherwise.
 	 */
 	boolean isPathFinished(T nodeCurr, T nodeDest);
+
+	/*
+	 * Returns the target node's neighbors
+	 * 
+	 * @param	node			The target node
+	 * @param	nodePathDepth	The path depth (so far) to the current node
+	 * 
+	 * @return					The list of node's neighbours
+	 */
+	List<T> getNeighbours( T node, int nodePathDepth );
 }

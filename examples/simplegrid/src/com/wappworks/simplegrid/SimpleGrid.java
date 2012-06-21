@@ -12,11 +12,10 @@ import java.util.List;
 
 import com.wappworks.common.ai.pathfinder.astar.PathFinderAStar;
 import com.wappworks.common.ai.pathfinder.common.PathNodeEvaluator;
-import com.wappworks.common.ai.pathfinder.common.PathNodeSet;
 import com.wappworks.common.ai.pathfinder.common.Pathfinder;
 
 @SuppressWarnings("serial")
-public class SimpleGrid extends Canvas implements PathNodeSet<Point>
+public class SimpleGrid extends Canvas
 {
 	//	CONSTANTS
 	// ----------------------------------
@@ -41,7 +40,7 @@ public class SimpleGrid extends Canvas implements PathNodeSet<Point>
 	{
 		super();
 		
-		pathFinder = new PathFinderAStar<Point>( this );
+		pathFinder = new PathFinderAStar<Point>();
 		
 		rowsNum = inRowsNum;
 		colsNum = inColsNum;
@@ -73,23 +72,6 @@ public class SimpleGrid extends Canvas implements PathNodeSet<Point>
 				onMouseSelect( evt );
 			}
 		});
-	}
-	
-	//@Override
-	public List<Point> getNeighbours(Point point, int pathDepth)
-	{
-		ArrayList<Point> neighbours = new ArrayList<Point>();
-		
-		if( (point.x - 1) >= 0 )
-			neighbours.add( gridPoints[point.y][point.x - 1] );
-		if( (point.x + 1) < colsNum )
-			neighbours.add( gridPoints[point.y][point.x + 1] );
-		if( (point.y - 1) >= 0 )
-			neighbours.add( gridPoints[point.y - 1][point.x] );
-		if( (point.y + 1) < rowsNum )
-			neighbours.add( gridPoints[point.y + 1][point.x] );
-		
-		return neighbours;
 	}
 	
 	@Override
@@ -186,6 +168,23 @@ public class SimpleGrid extends Canvas implements PathNodeSet<Point>
 			private float getChebyshevDistance( Point p1, Point p2 )
 			{
 				return Math.max( Math.abs(p2.x - p1.x), Math.abs(p2.y - p1.y) );
+			}
+
+			@Override
+			public List<Point> getNeighbours(Point point, int pathDepth)
+			{
+				ArrayList<Point> neighbours = new ArrayList<Point>();
+				
+				if( (point.x - 1) >= 0 )
+					neighbours.add( gridPoints[point.y][point.x - 1] );
+				if( (point.x + 1) < colsNum )
+					neighbours.add( gridPoints[point.y][point.x + 1] );
+				if( (point.y - 1) >= 0 )
+					neighbours.add( gridPoints[point.y - 1][point.x] );
+				if( (point.y + 1) < rowsNum )
+					neighbours.add( gridPoints[point.y + 1][point.x] );
+				
+				return neighbours;
 			}
 		});
 	}
