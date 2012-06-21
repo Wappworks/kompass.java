@@ -10,6 +10,9 @@ import com.wappworks.common.ai.pathfinder.common.PathNode;
 
 public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
 {
+	// Node cost fidelity is up to the 4th decimal place
+	private static final float NODECOST_FIDELITY_MULTIPLIER = 10000;	
+	
 	public 	T 				node;
 	
 	public	int				depth;
@@ -49,17 +52,12 @@ public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
 	@Override
 	public int compareTo(NodeAStar<T> other )
 	{
-		float diff = f - other.f;
+		// Difference is the value rounded up to the 4th decimal place...
+		int diff = Math.round( (f - other.f) * NODECOST_FIDELITY_MULTIPLIER );
 		if( diff == 0 )
 		{
-			diff = h - other.h;
+			diff = Math.round( (h - other.h) * NODECOST_FIDELITY_MULTIPLIER );
 		}
-		
-		if( diff < 0 )
-			return -1;
-		if( diff > 0 )
-			return 1;
-		
-		return 0;
+		return diff;
 	}
 }
