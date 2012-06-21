@@ -4,3 +4,4 @@ build
 zip/*
 tools/*.bat
 logo/*.ai
+examples/simplegrid/simplegrid.jar
