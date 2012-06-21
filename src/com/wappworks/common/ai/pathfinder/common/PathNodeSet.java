@@ -10,5 +10,13 @@ import java.util.List;
 
 public interface PathNodeSet<T>
 {
+	/*
+	 * Returns the target node's neighbors
+	 * 
+	 * @param	node			The target node
+	 * @param	nodePathDepth	The path depth (so far) to the current node
+	 * 
+	 * @return					The list of node's neighbours
+	 */
 	List<T> getNeighbours( T node, int nodePathDepth );
 }
