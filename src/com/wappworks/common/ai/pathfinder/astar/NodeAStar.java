@@ -44,6 +44,9 @@ public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
 	}
 
 	@Override
+	public T getNode()				{	return node;		}
+
+	@Override
 	public PathNode<T> getParent()	{	return parent;		}
 
 	@Override

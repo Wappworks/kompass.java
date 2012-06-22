@@ -1,6 +1,6 @@
 KOMPASS
 ==================
-Kompass is a path finding framework library. It ships with the A-star algorithm by default.
+Kompass is a path finding framework library. It includes an implementation of the A-star algorithm.
 
 
 FEATURES
@@ -24,6 +24,7 @@ VERSION HISTORY
 #### API changes
 - PathNodeSet has been removed and its functions rolled into PathNodeEvaluator to allow custom neighbour searching
 - PathFinderAStar constructor no longer takes any arguments.
+- Added PathNode<T>::getNode() which returns the node wrapped by the path node instance. 
 
 
 ### 0.1.0 First release

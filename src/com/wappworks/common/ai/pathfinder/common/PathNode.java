@@ -3,7 +3,14 @@ package com.wappworks.common.ai.pathfinder.common;
 public interface PathNode<T>
 {
 	/*
-	 * Returns the path's previous node
+	 * Returns the path node
+	 * 
+	 * @return					The node
+	 */
+	T 			getNode();
+
+	/*
+	 * Returns the previous path node
 	 * 
 	 * @return					The current node's previous path node. null if there isn't one
 	 */
