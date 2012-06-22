@@ -31,8 +31,8 @@
     <target name="buildjar">
         <jar destfile="${out.jarpath}" filesetmanifest="mergewithoutmain">
             <manifest>
-            	<attribute name="Class-Path" value="."/>
-            	<attribute name="Kompass version" value="${version} ${datenow}"/>
+            	<attribute name="Specification-Version" value="${version}"/>
+            	<attribute name="Implementation-Version" value="${datenow}"/>
             </manifest>
             <fileset dir="${src.bin}"/>
         </jar>
