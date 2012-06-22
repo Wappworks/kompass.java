@@ -8,15 +8,18 @@
         <format property="datenow" pattern="MMMM dd, yyyy" locale="en"/>
 	</tstamp>
 	
-	<property name="src.bin" value="../bin"/>
 	<property name="version" value="0.1.1"/>
-	<property name="out.dir" value="../build"/>
+	<property name="src.bin" value="../build"/>
+	<property name="out.dir" value="../bin"/>
 	<property name="out.jarpath" value="${out.dir}/kompass.jar"/>
 	
 	<property name="dest.pathzip" value="../zip"/>
 	<property name="dest.zipbin" value="${dest.pathzip}/kompass-${version}-bin.zip"/>
 	<property name="dest.zipsrc" value="${dest.pathzip}/kompass-${version}-src.zip"/>
 	<property name="zip.pathbase" value=".."/>
+	
+	<property name="scm.batchfile" value="scm_checkout.bat"/>
+	<available file="${scm.batchfile}" property="scm.exists"/>
 	
 	<!--
 		PUBLIC TARGETS				
@@ -29,6 +32,9 @@
 	</target>
 	  
     <target name="buildjar">
+    	<antcall target="scmcheckout">
+    		<param name="scm.target" value="${out.jarpath}"/>
+    	</antcall>
         <jar destfile="${out.jarpath}" filesetmanifest="mergewithoutmain">
             <manifest>
             	<attribute name="Specification-Version" value="${version}"/>
@@ -38,13 +44,42 @@
         </jar>
     </target>
 
-	<target name="buildzipbin" depends="buildjar">
+	<target name="buildzipbin">
     	<mkdir dir="${dest.pathzip}"/>
-		<zip destfile="${dest.zipbin}" basedir="${zip.pathbase}" includes="build/**,README.md, examples/**" excludes="**/bin/**,**/.p4ignore,**/.gitignore"/>
+		<zip destfile="${dest.zipbin}">
+			<fileset dir="${zip.pathbase}">
+				<include name="README.md"/>
+				<include name="bin"/>
+				<include name="examples/**"/>
+				<exclude name="examples/**/build/**"/>
+			</fileset>
+		</zip>
 	</target>
 
 	<target name="buildzipsrc">
     	<mkdir dir="${dest.pathzip}"/>
-		<zip destfile="${dest.zipsrc}" basedir="${zip.pathbase}" excludes="logo/*.ai,logo/*.psd,**/zip/**,**/bin/**,**/build/**,**/.git/**,**/tools/*.bat,**/.p4ignore,**/.gitignore"/>
+		<zip destfile="${dest.zipsrc}">
+			<fileset dir="${zip.pathbase}">
+				<exclude name="**/.gitignore"/>
+				<exclude name="**/.p4ignore"/>
+				<exclude name="**/*.psd"/>
+				<exclude name="**/*.ai"/>
+				<exclude name="**/zip/**"/>
+				<exclude name="**/build/**"/>
+				<exclude name="**/tools/sonar/**"/>
+				<exclude name="**/*.bat"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<!--
+		PRIVATE TARGETS				
+	-->
+	<target name="scmcheckout" if="scm.exists">
+    	<exec executable="cmd">
+    		<arg value="/c"/>
+    		<arg value="${scm.batchfile}"/>
+    		<arg value="${scm.target}"/>
+    	</exec>
 	</target>
 </project>

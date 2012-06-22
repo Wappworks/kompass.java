@@ -4,9 +4,9 @@
 	<!--
 		PROPERTIES				
 	-->
-	<property name="src.bin" value="../bin"/>
-	<property name="kompass.jarpath" value="../../../build/kompass.jar"/>
-	<property name="out.dir" value=".."/>
+	<property name="src.bin" value="../build"/>
+	<property name="kompass.jarpath" value="../../../bin/kompass.jar"/>
+	<property name="out.dir" value="../bin"/>
 	<property name="out.jarpath" value="${out.dir}/simplegrid.jar"/>
 	
 	<!--

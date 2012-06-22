@@ -1,7 +1,8 @@
 bin
 build
 *.p4ignore
-zip/*
+zip
 tools/*.bat
+tools/sonar
 logo/*.ai
 examples/simplegrid/simplegrid.jar
