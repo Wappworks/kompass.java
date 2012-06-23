@@ -1,6 +1,9 @@
 /*
  * A* path node
  * 
+ * NOTE: This class has a natural ordering that is inconsistent
+ * 		 with equals
+ * 
  * Copyright 2011 Wappworks Studio
  * All rights reserved.
  */
@@ -8,7 +11,7 @@ package com.wappworks.common.ai.pathfinder.astar;
 
 import com.wappworks.common.ai.pathfinder.common.PathNode;
 
-public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
+public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<?>>
 {
 	// Node cost fidelity is up to the 4th decimal place
 	private static final float NODECOST_FIDELITY_MULTIPLIER = 10000;	
@@ -32,17 +35,6 @@ public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
 		reset();
 	}
 	
-	public void reset()
-	{
-		depth = 0;
-		f = 0;
-		g = 0;
-		h = 0;
-		visited = false;
-		closed = false;
-		parent = null;
-	}
-
 	@Override
 	public T getNode()				{	return node;		}
 
@@ -53,7 +45,7 @@ public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
 	public float getCost()			{	return g;			}
 
 	@Override
-	public int compareTo(NodeAStar<T> other )
+	public int compareTo(NodeAStar<?> other )
 	{
 		// Difference is the value rounded up to the 4th decimal place...
 		int diff = Math.round( (f - other.f) * NODECOST_FIDELITY_MULTIPLIER );
@@ -62,5 +54,28 @@ public class NodeAStar<T> implements PathNode<T>, Comparable<NodeAStar<T>>
 			diff = Math.round( (h - other.h) * NODECOST_FIDELITY_MULTIPLIER );
 		}
 		return diff;
+	}
+
+	@Override
+	public boolean equals(Object other)
+	{
+		// The path nodes are equivalent if the child node is equal...
+		if( other instanceof NodeAStar<?> )
+		{
+			return node.equals( ((NodeAStar<?>) other).node );
+		}
+		
+		return false;
+	}
+
+	private void reset()
+	{
+		depth = 0;
+		f = 0;
+		g = 0;
+		h = 0;
+		visited = false;
+		closed = false;
+		parent = null;
 	}
 }

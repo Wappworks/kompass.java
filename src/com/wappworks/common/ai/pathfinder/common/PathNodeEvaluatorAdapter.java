@@ -32,7 +32,7 @@ public abstract class PathNodeEvaluatorAdapter<T> implements
 	@Override
 	public boolean isPathFinished(T nodeCurr, T nodeDest)
 	{
-		return( nodeCurr == nodeDest );
+		return nodeCurr.equals( nodeDest );
 	}
 
 	@Override
