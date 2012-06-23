@@ -12,7 +12,7 @@ import java.util.List;
 
 import com.wappworks.common.ai.pathfinder.astar.PathFinderAStar;
 import com.wappworks.common.ai.pathfinder.common.PathNodeEvaluator;
-import com.wappworks.common.ai.pathfinder.common.Pathfinder;
+import com.wappworks.common.ai.pathfinder.common.PathFinder;
 
 @SuppressWarnings("serial")
 public class SimpleGrid extends Canvas
@@ -22,7 +22,7 @@ public class SimpleGrid extends Canvas
 
 	//	MEMBER VARIABLES
 	// ----------------------------------
-	private Pathfinder<Point>	pathFinder;
+	private PathFinder<Point>	pathFinder;
 	
 	private int 				rowsNum;
 	private int 				colsNum;

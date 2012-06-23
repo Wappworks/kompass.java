@@ -15,9 +15,9 @@ import java.util.PriorityQueue;
 
 import com.wappworks.common.ai.pathfinder.common.PathNode;
 import com.wappworks.common.ai.pathfinder.common.PathNodeEvaluator;
-import com.wappworks.common.ai.pathfinder.common.Pathfinder;
+import com.wappworks.common.ai.pathfinder.common.PathFinder;
 
-public class PathFinderAStar<T> implements Pathfinder<T>
+public class PathFinderAStar<T> implements PathFinder<T>
 {
 	// Instance variables
 	// ----------------------------------------

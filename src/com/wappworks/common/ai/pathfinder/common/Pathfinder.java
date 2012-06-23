@@ -8,7 +8,7 @@ package com.wappworks.common.ai.pathfinder.common;
 
 import java.util.List;
 
-public interface Pathfinder<T>
+public interface PathFinder<T>
 {
 	/*
 	 * Finds a path from nodeStart to nodeEnd
